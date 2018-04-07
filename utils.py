@@ -5,28 +5,41 @@ import re
 import pickle
 import tempfile
 
+_mydir = os.path.dirname(os.path.realpath(__file__))
+
+class AttrDict(dict):
+    def __init__(self, *args, **kwargs):
+        super(AttrDict, self).__init__(*args, **kwargs)
+        self.__dict__ = self
+
 # global settings
 # -----------------------------------------------------------------------------
-class Config(object):
+_config = dict(
     # main paper information repo file
-    db_path = 'db.p'
-    # intermediate processing folders
-    pdf_dir = os.path.join('data', 'pdf')
-    txt_dir = os.path.join('data', 'txt')
-    thumbs_dir = os.path.join('static', 'thumbs')
-    # intermediate pickles
-    tfidf_path = 'tfidf.p'
-    meta_path = 'tfidf_meta.p'
-    sim_path = 'sim_dict.p'
-    user_sim_path = 'user_sim.p'
-    # sql database file
-    db_serve_path = 'db2.p' # an enriched db.p with various preprocessing info
-    database_path = 'as.db'
-    serve_cache_path = 'serve_cache.p'
-    
-    beg_for_hosting_money = 1 # do we beg the active users randomly for money? 0 = no.
-    banned_path = 'banned.txt' # for twitter users who are banned
+    db_path = 'db.p',
+    # intermediate processing folders,
+    pdf_dir = os.path.join('data', 'pdf'),
+    txt_dir = os.path.join('data', 'txt'),
+    thumbs_dir = os.path.join('static', 'thumbs'),
+    # intermediate pickles,
+    tfidf_path = 'tfidf.p',
+    meta_path = 'tfidf_meta.p',
+    sim_path = 'sim_dict.p',
+    user_sim_path = 'user_sim.p',
+    # sql database file,
+    db_serve_path = 'db2.p', # an enriched db.p with various preprocessing info
+    database_path = 'as.db',
+    serve_cache_path = 'serve_cache.p',
+    beg_for_hosting_money = 1, # do we beg the active users randomly for money? 0 = no.,
+    banned_path = 'banned.txt', # for twitter users who are banned,
     tmp_dir = 'tmp'
+    )
+# feel free to change the anchor dir but do not rely on pwd
+for k in _config:
+    if k.endswith('path') or k.endswith('dir'):
+        _config[k] = os.path.join(_mydir, _config[k])
+
+Config = AttrDict(**_config)
 
 # Context managers for atomic writes courtesy of
 # http://stackoverflow.com/questions/2333872/atomic-writing-to-file-with-python

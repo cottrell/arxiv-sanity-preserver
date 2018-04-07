@@ -17,6 +17,8 @@ import pymongo
 
 from utils import Config
 
+_mydir = os.path.dirname(os.path.realpath(__file__))
+
 # settings
 # -----------------------------------------------------------------------------
 sleep_time = 60*10 # in seconds, between twitter API calls. Default rate limit is 180 per 15 minutes
@@ -25,7 +27,7 @@ max_tweet_records = 15
 # convenience functions
 # -----------------------------------------------------------------------------
 def get_keys():
-  lines = open('twitter.txt', 'r').read().splitlines()
+  lines = open(os.path.join(_mydir, 'twitter.txt'), 'r').read().splitlines()
   return lines
 
 def extract_arxiv_pids(r):
