@@ -4,6 +4,7 @@ requires: sudo apt-get install imagemagick
 """
 
 import os
+import sys
 import time
 import shutil
 from subprocess import Popen
@@ -13,6 +14,10 @@ from utils import Config
 # make sure imagemagick is installed
 if not shutil.which('convert'): # shutil.which needs Python 3.3+
   print("ERROR: you don\'t have imagemagick installed. Install it first before calling this script")
+  sys.exit()
+
+if not shutil.which('gs'): # shutil.which needs Python 3.3+
+  print("ERROR: you don\'t have ghostscript installed. Install it first before calling this script")
   sys.exit()
 
 # create if necessary the directories we're using for processing and output

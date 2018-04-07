@@ -43,12 +43,37 @@ def parse_arxiv_url(url):
   assert len(parts) == 2, 'error parsing url ' + url
   return parts[0], int(parts[1])
 
+default_cats = [
+'cs.CV',
+'cs.AI',
+'cs.LG',
+'cs.CL',
+'stat.CO'
+'cs.NE',
+'stat.ML',
+'cs.MA',
+'econ.EM',
+'q-fin.TR',
+'q-fin.PR',
+'q-bio.PE',
+'q-bio.MN',
+'q-bio.GN',
+'cond-mat.dis-nn',
+'cond-mat.stat-mech',
+'cs.DB',
+'cs.DC',
+'cs.DL',
+'cs.ET'
+]
+default_cats = '+OR+'.join(['cat:{}'.format(x) for x in default_cats])
+
 if __name__ == "__main__":
 
   # parse input arguments
   parser = argparse.ArgumentParser()
   parser.add_argument('--search-query', type=str,
-                      default='cat:cs.CV+OR+cat:cs.AI+OR+cat:cs.LG+OR+cat:cs.CL+OR+cat:cs.NE+OR+cat:stat.ML',
+          # default='cat:cs.CV+OR+cat:cs.AI+OR+cat:cs.LG+OR+cat:cs.CL+OR+cat:cs.NE+OR+cat:stat.ML+OR+cat:cs.MA+OR+cat:econ.EM+OR+cat:q-fin.TR',
+          default=default_cats,
                       help='query used for arxiv API. See http://arxiv.org/help/api/user-manual#detailed_examples')
   parser.add_argument('--start-index', type=int, default=0, help='0 = most recent API result')
   parser.add_argument('--max-index', type=int, default=10000, help='upper bound on paper index we will fetch')
