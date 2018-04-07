@@ -46,8 +46,9 @@ for ii,u in enumerate(users):
   lib = query_db('''select * from library where user_id = ?''', [uid])
   pids = [x['paper_id'] for x in lib] # raw pids without version
   posix = [xtoi[p] for p in pids if p in xtoi]
-  
+
   if not posix:
+    print('not posix bad')
     continue # empty library for this user maybe?
 
   print(pids)
